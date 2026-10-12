@@ -1,0 +1,15 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "EulerPetersen.eulerian_circuit_iff",
+    "EulerPetersen.eulerian_circuit_at",
+    "EulerPetersen.eulerian_trail_iff",
+    "EulerPetersen.eulerian_trail_of_odd",
+    "EulerPetersen.eulerian_orientation",
+    "EulerPetersen.petersen_two_factor"
+  ],
+  "definition_names": [],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

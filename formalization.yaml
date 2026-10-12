@@ -1,0 +1,199 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Euler's theorem on Eulerian circuits and trails, and Petersen's 2-factor theorem"
+  description: >-
+    A Lean 4 / Mathlib formalization of the classical characterization of Eulerian graphs and of
+    Petersen's 2-factor theorem, for finite simple graphs. (1) Euler–Hierholzer: a finite
+    connected graph has an Eulerian circuit if and only if every vertex has even degree, and the
+    circuit can start at any prescribed vertex. (2) Eulerian trails: a finite connected graph has
+    an Eulerian trail if and only if it has 0 or 2 vertices of odd degree; when the odd vertices
+    are exactly a and b, there is an Eulerian trail from a to b. (3) Eulerian orientations: if
+    every degree is even, the edges can be oriented so that every vertex has equal in- and
+    out-degree. (4) Petersen's 2-factor theorem (1891): every finite 2k-regular graph is the
+    edge-disjoint union of k spanning 2-regular subgraphs. The proof of (4) is built on (1)–(3):
+    the graph is decomposed into edge-disjoint closed trails (using the closed-trail lemma
+    behind the Euler theorems), oriented along them, and the resulting k-regular digraph is split
+    into k permutations by Hall's marriage theorem; each permutation yields a 2-factor. Mathlib
+    already contained the necessity directions of (1) and (2); their sufficiency directions were
+    listed there as open TODO items.
+  authors:
+    - "Juan Pablo Traverso Gianini"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Juan Pablo Traverso Gianini"
+
+classification:
+  arxiv: ["math.CO"]
+  msc2020: ["05C45", "05C70", "05C20"]
+
+sources:
+  - title: "Solutio problematis ad geometriam situs pertinentis"
+    authors:
+      - "Leonhard Euler"
+    id: "Euler Archive E53"
+    type: "paper"
+    location: "Commentarii academiae scientiarum Petropolitanae 8 (1741), 128–140; https://scholarlycommons.pacific.edu/euler-works/53/"
+    relationship: "formalizes"
+    note: >-
+      Origin of the problem (the bridges of Königsberg) and of the necessity of the parity
+      condition. Euler's paper treats multigraphs and does not give a complete proof of
+      sufficiency.
+    license: "public domain"
+    author_endorsement: "n/a"
+  - title: "Ueber die Möglichkeit, einen Linienzug ohne Wiederholung und ohne Unterbrechung zu umfahren"
+    authors:
+      - "Carl Hierholzer"
+    id: "doi:10.1007/BF01442866"
+    type: "paper"
+    location: "Mathematische Annalen 6 (1873), 30–32"
+    relationship: "formalizes"
+    note: >-
+      First published proof of sufficiency. The Lean proof of the circuit theorem uses the
+      standard maximal-trail argument; the trail theorem uses a Hierholzer-style splicing of a
+      closed trail into a longest trail.
+    license: "public domain"
+    author_endorsement: "n/a"
+  - title: "Die Theorie der regulären graphs"
+    authors:
+      - "Julius Petersen"
+    id: "doi:10.1007/BF02392606"
+    type: "paper"
+    location: "Acta Mathematica 15 (1891), 193–220"
+    relationship: "formalizes"
+    note: >-
+      The 2-factor theorem. The Lean proof follows the standard textbook route (Eulerian
+      orientation followed by a regular bipartite matching argument via Hall's theorem) rather
+      than Petersen's original argument.
+    license: "public domain"
+    author_endorsement: "n/a"
+  - title: "On representatives of subsets"
+    authors:
+      - "Philip Hall"
+    id: "doi:10.1112/jlms/s1-10.37.26"
+    type: "paper"
+    location: "Journal of the London Mathematical Society 10 (1935), 26–30"
+    relationship: "background"
+    note: "Hall's marriage theorem, used through its Mathlib formalization."
+    license: "unknown"
+    author_endorsement: "n/a"
+  - title: "Mathematical Explanations in Euler's Königsberg"
+    authors:
+      - "Tim Räz"
+    id: "PhilSci-Archive 11094"
+    type: "paper"
+    location: "https://philsci-archive.pitt.edu/11094/ (2014); later version: European Journal for Philosophy of Science (2018)"
+    relationship: "background"
+    note: "Historical and expository account of Euler's solution of the Königsberg problem."
+    license: "unknown"
+    author_endorsement: "not-contacted"
+
+related_formalizations:
+  - id: "Mathlib: Mathlib/Combinatorics/SimpleGraph/Trails.lean"
+    relationship: "builds-on"
+    note: >-
+      Provides `SimpleGraph.Walk.IsEulerian` and the necessity directions
+      (`IsEulerian.even_degree_iff`, `IsEulerian.card_odd_degree`); this project proves the
+      sufficiency directions listed there as TODO, and reuses Mathlib's Hall theorem
+      (`Finset.all_card_le_biUnion_card_iff_exists_injective`).
+  - id: "https://www.isa-afp.org/entries/Koenigsberg_Friendship.html"
+    relationship: "independent"
+    note: >-
+      Isabelle/HOL formalization of Euler's theorem for multigraphs (Königsberg bridge problem).
+      Independent development in a different system; not used here.
+
+status:
+  scope: >-
+    Formalized for finite simple graphs (`SimpleGraph V` with `Fintype V`). Proved: the
+    Euler–Hierholzer characterization of Eulerian circuits (with a circuit through any vertex),
+    the characterization of Eulerian trails by 0 or 2 odd vertices (with prescribed endpoints),
+    the existence of balanced (Eulerian) orientations, and Petersen's 2-factor theorem. Not
+    covered by the compared statements: multigraphs (parallel edges or loops). The library also
+    contains a treatment of the Königsberg bridges via a subdivided simple graph
+    (`Euler.Konigsberg`), which is illustrative and not part of the Comparator configuration;
+    the equivalence between the multigraph and its subdivision is explained in comments but not
+    formalized.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["Claude Opus 5.5"]
+      framework: "Claude Code (Anthropic)"
+      tool_setup: >-
+        AI-assisted. The human author chose the results, the proof routes and the statements, and
+        directed the work; the AI agent wrote the Lean code and ran the Lean toolchain (Lean
+        v4.35.0-rc3, Mathlib c55e6e786f49471c72fbddbec5415808896aec1e), checking every file with
+        `lake build` and `#print axioms`. No other automated prover was used for this entry.
+      cost:
+        wall_time: "about one working day"
+        spend_usd: "subscription-based"
+        hardware: "local machine"
+      prompting_notes: >-
+        Natural-language instructions in Spanish (choice of theorems, request to reuse the Euler
+        development for Petersen); proof plans were proposed by the agent and approved by the
+        author.
+  spend_usd: "subscription-based"
+  notes: >-
+    The Euler development was written first; Petersen's theorem was then chosen specifically
+    because its classical proof reuses it. All proofs were checked mechanically (build with no
+    `sorry`, axioms limited to propext, Classical.choice and Quot.sound, and identical elaborated
+    types for the Challenge and Solution declarations).
+
+fidelity:
+  divergences: >-
+    The historical sources (Euler, Hierholzer, Petersen) are stated for multigraphs; here graphs
+    are simple. Connectedness is Mathlib's `SimpleGraph.Connected`, which includes nonemptiness
+    of the vertex type. The trail theorem counts odd vertices with `Fintype.card` of the set of
+    odd-degree vertices. The 2-factors are given as simple graphs `F i ≤ G` with every
+    neighbourhood of cardinality 2, pairwise edge-disjoint, with supremum `G`.
+
+review:
+  status: "agent-reviewed"
+  reviewers:
+    - "none"
+  notes: >-
+    Statements were audited by the agent against the sources and against Mathlib's existing
+    definitions, and checked mechanically (see automation notes). No independent human
+    mathematical review has been performed yet.
+
+alignment:
+  namespace: "EulerPetersen"
+  statements:
+    - source: "Euler (1741) / Hierholzer (1873): Eulerian circuits"
+      lean: "EulerPetersen.eulerian_circuit_iff"
+      module: "Challenge"
+      status: "proved"
+      note: "Circuit exists iff all degrees are even, for finite connected simple graphs."
+    - source: "Euler–Hierholzer, circuit through a prescribed vertex"
+      lean: "EulerPetersen.eulerian_circuit_at"
+      module: "Challenge"
+      status: "proved"
+      note: "Strengthening: the circuit can start at any vertex."
+    - source: "Euler (1741): Eulerian trails"
+      lean: "EulerPetersen.eulerian_trail_iff"
+      module: "Challenge"
+      status: "proved"
+      note: "Trail exists iff the number of odd-degree vertices is 0 or 2."
+    - source: "Eulerian trails with prescribed endpoints"
+      lean: "EulerPetersen.eulerian_trail_of_odd"
+      module: "Challenge"
+      status: "proved"
+      note: "If the odd vertices are exactly a ≠ b, there is an Eulerian trail from a to b."
+    - source: "Eulerian orientations (standard corollary)"
+      lean: "EulerPetersen.eulerian_orientation"
+      module: "Challenge"
+      status: "proved"
+      note: "One dart per edge, in-degree equals out-degree at every vertex."
+    - source: "Petersen (1891): 2-factor theorem"
+      lean: "EulerPetersen.petersen_two_factor"
+      module: "Challenge"
+      status: "proved"
+      note: "Every 2k-regular finite simple graph is the edge-disjoint union of k 2-factors."
+
+acknowledgements: >-
+  Mathlib (in particular its SimpleGraph library, the Eulerian-trail necessity results and Hall's
+  marriage theorem) and the Lean community.
