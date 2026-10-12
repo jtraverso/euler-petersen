@@ -41,6 +41,9 @@ The results:
 
 The necessity directions of 1–2 were already in Mathlib (`IsEulerian.even_degree_iff`,
 `IsEulerian.card_odd_degree`); the sufficiency directions were listed there as a TODO.
+
+The Mathlib definitions used in these statements are reproduced verbatim, with file and line at
+the pinned Mathlib revision, in `MATHLIB_DEFINITIONS.md` at the root of this repository.
 -/
 
 namespace EulerPetersen
