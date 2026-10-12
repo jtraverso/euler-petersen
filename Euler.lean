@@ -1,3 +1,5 @@
-import Euler.Basic
-import Euler.Trail
-import Euler.Konigsberg
+module
+
+public import Euler.Basic
+public import Euler.Trail
+public import Euler.Konigsberg

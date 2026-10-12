@@ -1,6 +1,8 @@
-import Mathlib.Combinatorics.SimpleGraph.Trails
-import Mathlib.Combinatorics.SimpleGraph.Connectivity.Connected
-import Mathlib.Combinatorics.SimpleGraph.Finite
+module
+
+public import Mathlib.Combinatorics.SimpleGraph.Trails
+public import Mathlib.Combinatorics.SimpleGraph.Connectivity.Connected
+public import Mathlib.Combinatorics.SimpleGraph.Finite
 
 /-!
 # Teorema de Euler (caracterización de grafos eulerianos)
@@ -22,6 +24,8 @@ Como la longitud de un trail está acotada por `|E|`, algún trail no se puede e
 anterior ese trail es un circuito euleriano.
 -/
 
+@[expose] public section
+
 namespace SimpleGraph
 
 open Walk
@@ -37,7 +41,7 @@ lemma exists_adj_not_mem_edges_of_not_even {u v x : V} {p : G.Walk u v} (hp : p.
   apply hodd
   have hinc : G.incidenceFinset x = hp.edgesFinset.filter (x ∈ ·) := by
     ext e
-    simp only [mem_incidenceFinset, incidenceSet, Set.mem_setOf_eq, Finset.mem_filter,
+    simp only [mem_incidenceFinset, incidenceSet, Set.mem_ofPred_eq, Finset.mem_filter,
       Finset.mem_mk, Multiset.mem_coe]
     constructor
     · rintro ⟨he, hxe⟩
@@ -84,13 +88,13 @@ lemma exists_isEulerian_or_longer_trail (hconn : G.Connected)
     · exact Or.inl ⟨u, p, he⟩
     right
     obtain ⟨x, hx, y, hxy, hnot⟩ := exists_mem_support_adj_not_mem_edges hconn hp he
-    refine ⟨y, x, cons hxy.symm (p.rotate hx).reverse, ?_, ?_⟩
+    refine ⟨y, x, cons hxy.symm (p.rotate x hx).reverse, ?_, ?_⟩
     · rw [isTrail_cons]
-      refine ⟨(hp.rotate hx).reverse, ?_⟩
-      rw [edges_reverse, List.mem_reverse, (rotate_edges p hx).mem_iff, Sym2.eq_swap]
+      refine ⟨((isTrail_rotate hx).mpr hp).reverse, ?_⟩
+      rw [edges_reverse, List.mem_reverse, (rotate_edges p x hx).mem_iff, Sym2.eq_swap]
       exact hnot
     · rw [length_cons, length_reverse, ← length_edges, ← length_edges,
-        (rotate_edges p hx).perm.length_eq]
+        (rotate_edges p x hx).perm.length_eq]
       omega
   · right
     have hodd : ¬ Even (p.edges.countP fun e => v ∈ e) := by

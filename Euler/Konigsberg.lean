@@ -1,5 +1,7 @@
-import Euler.Basic
-import Mathlib.Tactic.FinCases
+module
+
+public import Euler.Basic
+public import Mathlib.Tactic.FinCases
 
 /-!
 # Los puentes de Königsberg
@@ -17,6 +19,8 @@ Grados: A = 5, B = C = D = 3, puentes = 2. Hay 4 vértices de grado impar, y un 
 admite 0 ó 2 (`SimpleGraph.Walk.IsEulerian.card_odd_degree`), luego no existe el paseo.
 -/
 
+@[expose] public section
+
 namespace Konigsberg
 
 /-- Aristas del grafo subdividido: `(puente, masa de tierra)`. -/
@@ -30,7 +34,7 @@ def edgeList : List (ℕ × ℕ) :=
 /-- El grafo de Königsberg con cada puente subdividido. -/
 def graph : SimpleGraph (Fin 11) where
   Adj i j := (i.val, j.val) ∈ edgeList ∨ (j.val, i.val) ∈ edgeList
-  symm _ _ h := h.symm
+  symm := ⟨fun _ _ h => h.symm⟩
   loopless := ⟨fun i => by fin_cases i <;> decide⟩
 
 instance : DecidableRel graph.Adj := fun i j =>

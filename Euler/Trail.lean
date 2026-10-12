@@ -1,4 +1,6 @@
-import Euler.Basic
+module
+
+public import Euler.Basic
 
 /-!
 # Caminos eulerianos abiertos
@@ -23,6 +25,8 @@ trail cerrado `c` en `x`, de longitud positiva, disjunto de `p`. Insertando `c` 
 se obtiene un trail `a → b` más largo: contradicción.
 -/
 
+@[expose] public section
+
 namespace SimpleGraph
 
 open Walk
@@ -36,8 +40,7 @@ lemma countP_eq_degree_of_forall_adj_mem {L : List (Sym2 V)} (hL : L.Nodup)
     L.countP (fun e => x ∈ e) = G.degree x := by
   have hinc : G.incidenceFinset x = (⟨(L : Multiset (Sym2 V)), hL⟩ : Finset _).filter (x ∈ ·) := by
     ext e
-    simp only [mem_incidenceFinset, incidenceSet, Set.mem_setOf_eq, Finset.mem_filter,
-      Finset.mem_mk, Multiset.mem_coe]
+    simp only [mem_incidenceFinset, incidenceSet, Set.mem_ofPred_eq, Finset.mem_filter]
     constructor
     · rintro ⟨he, hxe⟩
       obtain ⟨y, rfl⟩ := Sym2.mem_iff_exists.mp hxe
@@ -173,7 +176,7 @@ theorem exists_isEulerian_walk_iff (hconn : G.Connected) :
   · rintro ⟨u, v, p, hp⟩
     exact hp.card_odd_degree
   · intro hcard
-    rw [← Set.toFinset_card, Set.toFinset_setOf] at hcard
+    rw [← Set.toFinset_card, Set.toFinset_ofPred] at hcard
     rcases hcard with h0 | h2
     · obtain ⟨a⟩ := hconn.nonempty
       rw [Finset.card_eq_zero, Finset.filter_eq_empty_iff] at h0
