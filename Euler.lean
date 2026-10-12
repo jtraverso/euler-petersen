@@ -8,3 +8,5 @@ module
 public import Euler.Basic
 public import Euler.Trail
 public import Euler.Konigsberg
+public import Euler.Orientation
+public import Euler.Petersen
