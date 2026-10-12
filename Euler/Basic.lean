@@ -51,9 +51,9 @@ lemma exists_adj_not_mem_edges_of_not_even {u v x : V} {p : G.Walk u v} (hp : p.
     rfl
   rwa [hcard]
 
-/-- En un grafo conexo, si un trail cerrado no es euleriano, algún vértice del trail tiene
+/-- En un grafo conexo, si un trail no es euleriano, algún vértice del trail tiene
 una arista que el trail no usa. -/
-lemma exists_mem_support_adj_not_mem_edges (hconn : G.Connected) {u : V} {p : G.Walk u u}
+lemma exists_mem_support_adj_not_mem_edges (hconn : G.Connected) {u v : V} {p : G.Walk u v}
     (hp : p.IsTrail) (hne : ¬ p.IsEulerian) :
     ∃ x ∈ p.support, ∃ y, G.Adj x y ∧ s(x, y) ∉ p.edges := by
   by_contra! h
