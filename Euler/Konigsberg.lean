@@ -1,4 +1,5 @@
 import Euler.Basic
+import Mathlib.Tactic.FinCases
 
 /-!
 # Los puentes de Königsberg
@@ -30,9 +31,7 @@ def edgeList : List (ℕ × ℕ) :=
 def graph : SimpleGraph (Fin 11) where
   Adj i j := (i.val, j.val) ∈ edgeList ∨ (j.val, i.val) ∈ edgeList
   symm _ _ h := h.symm
-  loopless := by
-    intro i
-    fin_cases i <;> decide
+  loopless := ⟨fun i => by fin_cases i <;> decide⟩
 
 instance : DecidableRel graph.Adj := fun i j =>
   inferInstanceAs (Decidable ((i.val, j.val) ∈ edgeList ∨ (j.val, i.val) ∈ edgeList))

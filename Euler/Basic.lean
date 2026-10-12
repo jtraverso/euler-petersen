@@ -1,4 +1,6 @@
-import Mathlib
+import Mathlib.Combinatorics.SimpleGraph.Trails
+import Mathlib.Combinatorics.SimpleGraph.Connectivity.Connected
+import Mathlib.Combinatorics.SimpleGraph.Finite
 
 /-!
 # Teorema de Euler (caracterización de grafos eulerianos)
