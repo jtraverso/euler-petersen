@@ -154,11 +154,16 @@ fidelity:
 review:
   status: "agent-reviewed"
   reviewers:
-    - "none"
+    - "Claude Opus 5.5 (AI agent in Claude Code, acting for the author)"
   notes: >-
-    Statements were audited by the agent against the sources and against Mathlib's existing
-    definitions, and checked mechanically (see automation notes). No independent human
-    mathematical review has been performed yet.
+    Agent review by Claude Opus 5.5, distinct from the mechanical verification: the agent
+    compared the Challenge statements with the theorems of Euler–Hierholzer and Petersen and with
+    Mathlib's existing definitions (in particular `SimpleGraph.Walk.IsEulerian`), recorded the
+    divergences above, and confirmed by `lake build`, `#print axioms` and a comparison of the
+    fully elaborated Challenge and Solution types that the proofs use no `sorry` and only
+    propext, Classical.choice and Quot.sound. The author directed the work and approved the
+    statements. No independent human mathematical review has been performed. The results are
+    classical; no mathematical novelty is claimed.
 
 alignment:
   namespace: "EulerPetersen"
